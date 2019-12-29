@@ -1,5 +1,5 @@
 # Practical Assignment 5
-**Name:** .......
+**Name:** Aron Jinga
 ## Problem 5.1 
 ### Reflection (Points 20)
 In contrast to the rasterization algorithms, raytracing can simulate physically correct reflections and refractions. In this assignmnet we will extend the Phong shader to handle both reflections and refractions. 
