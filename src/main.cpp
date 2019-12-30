@@ -37,7 +37,7 @@ Mat RenderFrame(void)
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(10, 10.1f, 10), Vec3f(-10, 10.1f, 10), Vec3f(10, 10.1f, -10), pShaderLight));
 	
 	scene.Add(std::make_shared<CLightPoint>(Vec3f::all(50), Vec3f(0, 4, 10)));
-	//scene.Add(std::make_shared<CLightArea>(Vec3f::all(6), Vec3f(-10, 10, -10), Vec3f(10, 10, -10), Vec3f(10, 10, 10), Vec3f(-10, 10, 10)));
+	scene.Add(std::make_shared<CLightArea>(Vec3f::all(6), Vec3f(-10, 10, -10), Vec3f(10, 10, -10), Vec3f(10, 10, 10), Vec3f(-10, 10, 10)));
 	scene.Add(std::make_shared<CLightPoint>(Vec3f::all(50), Vec3f(0, 10, 0)));
 	
 #ifdef ENABLE_BSP
@@ -50,8 +50,8 @@ Mat RenderFrame(void)
 
 
 #ifdef ENABLE_SUPERSAMPLING
-//	auto sampleGenerator = std::make_unique<CSampleGeneratorRegular>();
-//	auto sampleGenerator = std::make_unique<CSampleGeneratorRandom>();
+	auto sampleGenerator = std::make_unique<CSampleGeneratorRegular>();
+	auto sampleGenerator = std::make_unique<CSampleGeneratorRandom>();
 	auto sampleGenerator = std::make_unique<CSampleGeneratorStratified>();
 	int nSamples = 16;
 	float *u = new float[nSamples];
