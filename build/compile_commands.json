@@ -1,0 +1,12 @@
+[
+{
+  "directory": "C:/Users/aronj/Documents/GitHub/eyden-tracer-05/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS @CMakeFiles/eyden-tracer.dir/includes_CXX.rsp -g   -std=gnu++17 -o CMakeFiles\\eyden-tracer.dir\\src\\Scene.cpp.obj -c C:\\Users\\aronj\\Documents\\GitHub\\eyden-tracer-05\\src\\Scene.cpp",
+  "file": "C:/Users/aronj/Documents/GitHub/eyden-tracer-05/src/Scene.cpp"
+},
+{
+  "directory": "C:/Users/aronj/Documents/GitHub/eyden-tracer-05/build",
+  "command": "C:\\MinGW\\bin\\g++.exe  -D_CRT_SECURE_NO_WARNINGS -D_SCL_SECURE_NO_WARNINGS @CMakeFiles/eyden-tracer.dir/includes_CXX.rsp -g   -std=gnu++17 -o CMakeFiles\\eyden-tracer.dir\\src\\main.cpp.obj -c C:\\Users\\aronj\\Documents\\GitHub\\eyden-tracer-05\\src\\main.cpp",
+  "file": "C:/Users/aronj/Documents/GitHub/eyden-tracer-05/src/main.cpp"
+}
+]
