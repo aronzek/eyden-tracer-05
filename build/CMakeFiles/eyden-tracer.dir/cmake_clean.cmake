@@ -1,10 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/eyden-tracer.dir/src/Scene.cpp.obj"
-  "CMakeFiles/eyden-tracer.dir/src/main.cpp.obj"
-  "bin/eyden-tracer.exe"
-  "bin/eyden-tracer.exe.manifest"
+  "CMakeFiles/eyden-tracer.dir/src/Scene.cpp.o"
+  "CMakeFiles/eyden-tracer.dir/src/main.cpp.o"
   "bin/eyden-tracer.pdb"
-  "bin/libeyden-tracer.dll.a"
+  "bin/eyden-tracer"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -11,7 +11,7 @@ namespace DirectGraphicalModels
 	* @brief %Timer
 	* @author Sergey G. Kosov, sergey.kosov@project-10.de
 	*/
-	namespace Timer 
+	namespace Timer
 	{
 		static int64 m_ticks = 0;
 
@@ -19,7 +19,7 @@ namespace DirectGraphicalModels
 		* @brief Starts the timer
 		* @param str Custom string to be printed when the timer has started
 		*/
-		void start(const std::string &str) 
+		void start(const std::string &str)
 		{
 			printf("%s ", str.c_str());
 			m_ticks = getTickCount();
@@ -29,7 +29,7 @@ namespace DirectGraphicalModels
 		* @brief Stops the timer
 		* @details This function prints out the time in milliseconds passed between start() and stop()
 		*/
-		void stop(void) 
+		void stop(void)
 		{
 			int64 ms = static_cast<int64>(1000 * (getTickCount() - m_ticks) / getTickFrequency());
 			int64 sec = 0;
@@ -50,10 +50,10 @@ namespace DirectGraphicalModels
 			}
 
 			printf("Done! (");
-			if (hrs) printf("%lld:", hrs);
-			if (min) printf("%lld:", min);
-			if (sec) printf("%lld'", sec);
-			printf("%03lld ms)\n", ms);
+			if (hrs) printf("%ld:", hrs);
+			if (min) printf("%ld:", min);
+			if (sec) printf("%ld'", sec);
+			printf("%03ld ms)\n", ms);
 		}
 	}
 }

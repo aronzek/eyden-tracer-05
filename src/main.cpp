@@ -27,7 +27,7 @@ Mat RenderFrame(void)
 	auto pShaderLight	= std::make_shared<CShaderFlat>(RGB(1, 1, 1));
 	auto pShaderWhite	= std::make_shared<CShaderPhong>(scene, RGB(1, 1, 1), 0.5f, 0.5f, 0, 0);
 	auto pShaderRed		= std::make_shared<CShaderPhong>(scene, RGB(1, 0, 0), 0.5f, 0.5f, 0, 0);
-	
+
 	// Load scene description
 	scene.ParseOBJ("../../../data/Torus Knot.obj");
 
@@ -35,11 +35,11 @@ Mat RenderFrame(void)
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(0, 0, -50), Vec3f(0, 0, 50), Vec3f(50, 0, 50), pShaderRed));
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(-10, 10.1f, -10), Vec3f(10, 10.1f, -10), Vec3f(-10, 10.1f, 10), pShaderLight));
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(10, 10.1f, 10), Vec3f(-10, 10.1f, 10), Vec3f(10, 10.1f, -10), pShaderLight));
-	
+
 	scene.Add(std::make_shared<CLightPoint>(Vec3f::all(50), Vec3f(0, 4, 10)));
 	scene.Add(std::make_shared<CLightArea>(Vec3f::all(6), Vec3f(-10, 10, -10), Vec3f(10, 10, -10), Vec3f(10, 10, 10), Vec3f(-10, 10, 10)));
 	scene.Add(std::make_shared<CLightPoint>(Vec3f::all(50), Vec3f(0, 10, 0)));
-	
+
 #ifdef ENABLE_BSP
 	// Build BSPTree
 	scene.BuildAccelStructure();
@@ -50,15 +50,15 @@ Mat RenderFrame(void)
 
 
 #ifdef ENABLE_SUPERSAMPLING
-	auto sampleGenerator = std::make_unique<CSampleGeneratorRegular>();
+	//auto sampleGenerator = std::make_unique<CSampleGeneratorRegular>();
 	auto sampleGenerator = std::make_unique<CSampleGeneratorRandom>();
-	auto sampleGenerator = std::make_unique<CSampleGeneratorStratified>();
+	//auto sampleGenerator = std::make_unique<CSampleGeneratorStratified>();
 	int nSamples = 16;
 	float *u = new float[nSamples];
 	float *v = new float[nSamples];
 	float *weight = new float[nSamples];
 	sampleGenerator->getSamples(nSamples, u, v, weight);
-	
+
 	for (int y = 0; y < img.rows; y++) {
 		for (int x = 0; x < img.cols; x++) {
 			Vec3f color = Vec3f::all(0);

@@ -1,3 +1,1 @@
-"C:\Program Files\CMake\bin\cmake.exe" -E remove -f CMakeFiles\eyden-tracer.dir/objects.a
-C:\MinGW\bin\ar.exe cr CMakeFiles\eyden-tracer.dir/objects.a @CMakeFiles\eyden-tracer.dir\objects1.rsp
-C:\MinGW\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\eyden-tracer.dir/objects.a -Wl,--no-whole-archive  -o bin\eyden-tracer.exe -Wl,--out-implib,bin\libeyden-tracer.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\eyden-tracer.dir\linklibs.rsp
+/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/eyden-tracer.dir/src/Scene.cpp.o CMakeFiles/eyden-tracer.dir/src/main.cpp.o  -o bin/eyden-tracer -Wl,-rpath,/home/aron/opencv/build/lib /home/aron/opencv/build/lib/libopencv_highgui.so.4.0.0 /home/aron/opencv/build/lib/libopencv_videoio.so.4.0.0 /home/aron/opencv/build/lib/libopencv_imgcodecs.so.4.0.0 /home/aron/opencv/build/lib/libopencv_imgproc.so.4.0.0 /home/aron/opencv/build/lib/libopencv_core.so.4.0.0 
