@@ -19,6 +19,12 @@
 #include "LightArea.h"
 #include "timer.h"
 
+//resources:
+// https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
+//http://www.cs.otago.ac.nz/cosc342/2017-notes/342-2017lect18.pdf
+//http://web.cse.ohio-state.edu/~shen.94/681/Site/Slides_files/reflection_refraction.pdf
+// 
+
 Mat RenderFrame(void)
 {
 	// Define a scene
@@ -29,7 +35,7 @@ Mat RenderFrame(void)
 	auto pShaderRed		= std::make_shared<CShaderPhong>(scene, RGB(1, 0, 0), 0.5f, 0.5f, 0, 0);
 
 	// Load scene description
-	scene.ParseOBJ("../../../data/Torus Knot.obj");
+	scene.ParseOBJ("../../data/Torus Knot.obj");
 
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(0, 0, 50), Vec3f(0, 0, -50), Vec3f(-50, 0, -50), pShaderWhite));
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(0, 0, -50), Vec3f(0, 0, 50), Vec3f(50, 0, 50), pShaderRed));

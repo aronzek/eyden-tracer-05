@@ -7,7 +7,7 @@
 #include "PrimTriangleSmooth.h"
 #include "PrimTriangleSmoothTextured.h"
 
-#include <fstream> 
+#include <fstream>
 
 
 void CScene::ParseOBJ(const std::string& fileName)
@@ -17,7 +17,7 @@ void CScene::ParseOBJ(const std::string& fileName)
 	if (file.is_open()) {
 		std::cout << "Parsing OBJFile : " << fileName << std::endl;
 
-		std::shared_ptr<IShader> pShader = std::make_shared<CShaderPhong>(*this, RGB(1, 1, 1), 0.5f, 0.5f, 0, 0);
+		std::shared_ptr<IShader> pShader = std::make_shared<CShaderPhong>(*this, RGB(1, 1, 1), 0.5f, 0.5f, 0, 0, false);
 		std::vector<Vec3f> vVertexes;
 		std::vector<Vec3f> vNormals;
 		std::vector<Vec2f> vTextures;
