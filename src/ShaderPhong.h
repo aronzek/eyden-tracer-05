@@ -53,7 +53,9 @@ public:
 		// shadow ray (up to now only for the light direction)
 		Ray shadow;
 		shadow.org = ray.org + ray.t * ray.dir;
-
+	
+		//refraction parameters
+		
 		// iterate over all light sources
 		for (auto pLight : m_scene.m_vpLights)
 			for(int s = 0; s < nAreaSamples; s++) {	// TODO: make the sampling to depend on the light source type
@@ -79,55 +81,65 @@ public:
 				}
 			}
 
-		if (nAreaSamples > 1)
-			res /= nAreaSamples;
+			if(nAreaSamples > 1)
+				res /= nAreaSamples;
 
-			//refraction
-			float nDiamond = 2.4, nAir = 1; // we declare the air refraction index in case of swaping
-			Vec3f resRefr(0,0,0);
-			bool irefract = false;
-	//	Vec3f resRef(0,0,0);
-	//	bool ireflect = false;
+		// float nDiamond = 2.4, nAir = 1; // we declare the air refraction index in case of swaping
+		// Vec3f resRefr(0,0,0);
+		Vec3f resRef(0,0,0);
+		// bool irefract = false;
+		bool ireflect = false;
 
-			if(!isOpaque && ray.refractD <= MAXREFRACT && /*ray.reflectD <= MAXREF*/){
-	//		ireflect = true;
-				irefract = true;
-				Vec3f rNorm = normal;
-				float ndI = -rNorm.dot(ray.dir);
-				//swap
-				if(ray.refractD %2 == 1){
-					float aux;
-					aux = nDiamond;
-					nDiamond = nAir;
-					nAir = aux;
-				}
-			float n = nAir / nDiamond;
-			//formula for refraction.
-			Vec3f refraction = normalize(n*(ray.dir+rNorm * ndI) - rNorm * sqrt((1 - n*n) *(1 - ndI*ndI)));
+		// if(!isOpaque && ray.refractD <= MAXREFRACT){
+			// ireflect = true;
+			// irefract = true;
+			// Vec3f rNorm = normal;
+			// float ndI = rNorm.dot(ray.dir);
+			// ndI = -ndI;
+			//swap
+			// if(ray.refractD %2 == 1){
+				// swap(nDiamond, nAir);	
+			// }
 
-			Ray refrRay;
-			refrRay.org = ray.org + ray.t * ray.dir;
-			//normalization of the direction of refraction under formulas derived from references cited in main.cpp
-			refrRay.dir = refraction;
-			refrRay.t = std::numeric_limits<float>::infinity();
-			refrRay.refractD++;
-	//		Ray rayRef;
-	//		refRay.org = ray.org + ray.t * ray.dir;
-	//		refRay.dir = reflect;
-	//		refRay.t = std::numeric_limits<float>::infinity();
-	//		refRay.reflectD++;
+			// float n = nAir / nDiamond;
+			
+			// Ray refrRay;
+			// refrRay.org = ray.org + ray.t * ray.dir;
+			// refrRay.t = std::numeric_limits<float>::infinity();
+			//calculate refraction vector 
+			// Vec3f refraction = normalize(n*(ray.dir+rNorm * ndI) - rNorm * sqrt((1 - n*n) *(1 - pow(ndI, 2))));
+			// refrRay.dir = refraction;
+			// refrRay.refractD++;
+			// refrRay.hit = NULL;
+		// }	
+			// resRefr = m_scene.RayTrace(refrRay);
 
- 	//apply recursive raytracing
-				resRefr = m_scene.RayTrace(refrRay);
-	//		refRay = m_scene.RayTrace(refRay);
-}
-			if(irefract && ray.refractD != 0) return res * 0.2 + resRefr * 0.8;
-			//if(ireflect && rAy.reflectD != 0) return resRef;
-	for (int i = 0; i < 3; i++)
-		if (res.val[i] > 1)
-			res.val[i] = 1;
-				return res;
-}
+			// if(irefract && ray.refractD != 0){
+				// return res * 0.2 + resRefr * 0.8;
+			// }
+		
+			// reflection
+		if(!isOpaque && ray.reflectD <= MAXREF){
+			ireflect = true;
+			Ray refRay;
+			refRay.org = ray.org + ray.t * ray.dir;
+			refRay.dir = reflect;
+			refRay.t = std::numeric_limits<float>::infinity();
+			refRay.reflectD++;
+			resRef = m_scene.RayTrace(refRay);
+		}
+
+		if(ireflect && ray.reflectD != 0){
+			return resRef;
+		}
+
+
+		for (int i = 0; i < 3; i++)
+			if (res.val[i] > 1)
+				res.val[i] = 1;
+
+		return res;
+	}
 
 private:
 	CScene& m_scene;

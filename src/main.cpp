@@ -35,7 +35,7 @@ Mat RenderFrame(void)
 	auto pShaderRed		= std::make_shared<CShaderPhong>(scene, RGB(1, 0, 0), 0.5f, 0.5f, 0, 0);
 
 	// Load scene description
-	scene.ParseOBJ("../../data/Torus Knot.obj");
+	scene.ParseOBJ("../data/Torus Knot.obj");
 
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(0, 0, 50), Vec3f(0, 0, -50), Vec3f(-50, 0, -50), pShaderWhite));
 	scene.Add(std::make_shared<CPrimTriangle>(Vec3f(0, 0, -50), Vec3f(0, 0, 50), Vec3f(50, 0, 50), pShaderRed));
