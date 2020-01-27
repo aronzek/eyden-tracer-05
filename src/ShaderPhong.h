@@ -84,39 +84,41 @@ public:
 			if(nAreaSamples > 1)
 				res /= nAreaSamples;
 
-		// float nDiamond = 2.4, nAir = 1; // we declare the air refraction index in case of swaping
-		// Vec3f resRefr(0,0,0);
+		float nDiamond = 2.4, nAir = 1; // we declare the air refraction index in case of swaping
+		Vec3f resRefr(0,0,0);
 		Vec3f resRef(0,0,0);
-		// bool irefract = false;
+		Ray refrRay;
+		Ray refRay;
+		bool irefract = false;
 		bool ireflect = false;
 
-		// if(!isOpaque && ray.refractD <= MAXREFRACT){
-			// ireflect = true;
-			// irefract = true;
-			// Vec3f rNorm = normal;
-			// float ndI = rNorm.dot(ray.dir);
-			// ndI = -ndI;
+		if(!isOpaque && ray.refractD <= MAXREFRACT){
+			ireflect = true;
+			irefract = true;
+			Vec3f rNorm = normal;
+			float ndI = rNorm.dot(ray.dir);
+			ndI = -ndI;
 			//swap
-			// if(ray.refractD %2 == 1){
-				// swap(nDiamond, nAir);	
-			// }
+			if(ray.refractD %2 == 1){
+				swap(nDiamond, nAir);	
+			}
 
-			// float n = nAir / nDiamond;
+			float n = nAir / nDiamond;
 			
-			// Ray refrRay;
-			// refrRay.org = ray.org + ray.t * ray.dir;
-			// refrRay.t = std::numeric_limits<float>::infinity();
-			//calculate refraction vector 
-			// Vec3f refraction = normalize(n*(ray.dir+rNorm * ndI) - rNorm * sqrt((1 - n*n) *(1 - pow(ndI, 2))));
-			// refrRay.dir = refraction;
-			// refrRay.refractD++;
-			// refrRay.hit = NULL;
-		// }	
-			// resRefr = m_scene.RayTrace(refrRay);
+			Ray refrRay;
+			refrRay.org = ray.org + ray.t * ray.dir;
+			refrRay.t = std::numeric_limits<float>::infinity();
+			// calculate refraction vector 
+			Vec3f refraction = normalize(n*(ray.dir+rNorm * ndI) - rNorm * sqrt((1 - n*n) *(1 - pow(ndI, 2))));
+			refrRay.dir = refraction;
+			refrRay.refractD++;
+			refrRay.hit = NULL;
+		}	
+			resRefr = m_scene.RayTrace(refrRay);
 
-			// if(irefract && ray.refractD != 0){
-				// return res * 0.2 + resRefr * 0.8;
-			// }
+			if(irefract && ray.refractD != 0){
+				return res * 0.2 + resRefr * 0.8;
+			}
 		
 			// reflection
 		if(!isOpaque && ray.reflectD <= MAXREF){
