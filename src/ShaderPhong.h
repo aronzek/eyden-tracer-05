@@ -54,7 +54,6 @@ public:
 		Ray shadow;
 		shadow.org = ray.org + ray.t * ray.dir;
 	
-		//refraction parameters
 		
 		// iterate over all light sources
 		for (auto pLight : m_scene.m_vpLights)
@@ -90,8 +89,10 @@ public:
 		Ray refrRay;
 		Ray refRay;
 		bool irefract = false;
+		bool iinterreflection = false;
 		bool ireflect = false;
 
+#ifndef REFRACTION_OFF
 		if(!isOpaque && ray.refractD <= MAXREFRACT){
 			ireflect = true;
 			irefract = true;
@@ -108,33 +109,68 @@ public:
 			Ray refrRay;
 			refrRay.org = ray.org + ray.t * ray.dir;
 			refrRay.t = std::numeric_limits<float>::infinity();
+			float sqval =  sqrt((1 - n*n) *(1 - pow(ndI, 2))); 
 			// calculate refraction vector 
+			if(isnan(sqval)){
+				iinterreflection = true;
+				refrRay.dir = reflect;
+				refrRay.refractD += 2;
+				refrRay.reflectD ++;
+			}else{
 			Vec3f refraction = normalize(n*(ray.dir+rNorm * ndI) - rNorm * sqrt((1 - n*n) *(1 - pow(ndI, 2))));
 			refrRay.dir = refraction;
 			refrRay.refractD++;
-			refrRay.hit = NULL;
-		}	
+			}
+			
 			resRefr = m_scene.RayTrace(refrRay);
-
+		}
+		#ifdef REFLECTION_OFF
 			if(irefract && ray.refractD != 0){
 				return res * 0.2 + resRefr * 0.8;
 			}
-		
+		#endif
+#endif
+#ifndef REFLECTION_OFF
 			// reflection
-		if(!isOpaque && ray.reflectD <= MAXREF){
+		if(!isOpaque && ray.reflectD <= MAXREF && !iinterreflection){
 			ireflect = true;
 			Ray refRay;
 			refRay.org = ray.org + ray.t * ray.dir;
 			refRay.dir = reflect;
 			refRay.t = std::numeric_limits<float>::infinity();
 			refRay.reflectD++;
+			refRay.hit = NULL;
+			
 			resRef = m_scene.RayTrace(refRay);
 		}
-
+	#ifdef REFRACTION_OFF
 		if(ireflect && ray.reflectD != 0){
 			return resRef;
 		}
+	#endif
+#endif
+		Vec3f resultTemporary(0,0,0);
+		
+#if !defined(REFLECTION_OFF) && !defined(REFRACTION_OFF)
+	if(ireflect||irefract){
+		if(ray.reflectD > 0 || ray.refractD > 0){
+			return 0.8 * res + 0.2 * resRef + 0.8 * resRefr;
+		}
+	}
+#endif
 
+#ifndef REFRACTION_OFF
+	if(irefract && ray.refractD == 0){
+		if(resRefr.val[0] == 0 && resRefr.val[1] == 0 && resRefr.val[2] == 0){
+			resultTemporary += res * 0.2;
+		}else{
+			resultTemporary += resRefr * 0.2 + res *0.8;
+		}
+	}
+#endif
+
+	if(ireflect||irefract)
+		res = resultTemporary;
 
 		for (int i = 0; i < 3; i++)
 			if (res.val[i] > 1)
@@ -149,7 +185,7 @@ private:
 	float 	m_kd;    ///< diffuse reflection coefficients
 	float 	m_ks;    ///< specular refelection coefficients
 	float 	m_ke;    ///< shininess exponent
-	const int MAXREF = 1; //depth of reflection, for 1 and 3 works
+	const int MAXREF = 3; //depth of reflection, for 1 and 3 works
 		//for MAXREF = 2 we get bus error.
 	const int MAXREFRACT = 5; //depth of refraction
 };
